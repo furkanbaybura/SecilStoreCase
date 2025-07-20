@@ -1,0 +1,143 @@
+﻿@page
+@model ConfigDashboard.Pages.IndexModel
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Config Panel</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+    <style>
+        body {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            font-family: 'Segoe UI', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="text-center mb-5">Panel</h1>
+
+        <!-- ekle -->
+        <div class="card mb-4 shadow">
+            <div class="card-header bg-primary text-white">Yeni Kayıt Ekle</div>
+            <div class="card-body">
+                <form method="post" asp-page-handler="Add" class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Name</label>
+                        <input type="text" asp-for="NewConfig.Name" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Type</label>
+                        <select asp-for="NewConfig.Type" class="form-select">
+                            <option value="string">string</option>
+                            <option value="int">int</option>
+                            <option value="bool">bool</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Value</label>
+                        <input type="text" asp-for="NewConfig.Value" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Application Name</label>
+                        <input type="text" asp-for="NewConfig.ApplicationName" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-check-label">Aktif mi?</label><br />
+                        <input type="checkbox" asp-for="NewConfig.IsActive" class="form-check-input" />
+                    </div>
+                    <div class="col-md-3 text-end align-self-end">
+                        <button type="submit" class="btn btn-success">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+       
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white">Mevcut Kayıtlar</div>
+            <div class="card-body p-4">
+
+                <!-- ara-->
+                <div class="mb-3">
+                    <input type="text" id="configSearchInput" class="form-control" placeholder="🔍 Name'e göre ara..." />
+                </div>
+
+                <!-- tabloöm -->
+                <table class="table table-striped table-hover m-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Value</th>
+                            <th>Application Name</th>
+                            <th>Aktif</th>
+                            <th>İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="configTableBody">
+                        @foreach (var config in Model.Configs)
+                        {
+                            <tr>
+                                <td>@config.Name</td>
+                                <td>@config.Type</td>
+                                <td>@config.Value</td>
+                                <td>@config.ApplicationName</td>
+                                <td>@(config.IsActive ? "✔️" : "❌")</td>
+                                <td>
+                                    <!-- sil -->
+                                    <form method="post" asp-page-handler="Delete" class="d-inline">
+                                        <input type="hidden" name="id" value="@config.Id" />
+                                        <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                                    </form>
+
+                                    <!-- güncelle -->
+                                    <form method="post" asp-page-handler="Update" class="d-inline ms-2 align-items-center">
+                                        <input type="hidden" asp-for="EditedConfig.Id" value="@config.Id" />
+                                        <input type="hidden" asp-for="EditedConfig.Name" value="@config.Name" />
+                                        <input type="hidden" asp-for="EditedConfig.ApplicationName" value="@config.ApplicationName" />
+
+                                        <input type="text" asp-for="EditedConfig.Value" value="@config.Value" class="form-control form-control-sm d-inline-block" style="width:100px;" />
+
+                                        <select asp-for="EditedConfig.Type" class="form-select form-select-sm d-inline-block" style="width:90px;">
+                                            <option selected="@("string" == config.Type)">string</option>
+                                            <option selected="@("int" == config.Type)">int</option>
+                                            <option selected="@("bool" == config.Type)">bool</option>
+                                        </select>
+
+                                        <div class="form-check d-inline-block ms-2">
+                                            <input type="checkbox" asp-for="EditedConfig.IsActive" checked="@config.IsActive" class="form-check-input" />
+                                            <label class="form-check-label ms-1">Aktif</label>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-sm btn-primary ms-2">Güncelle</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- aramajs-->
+    <script>
+        document.getElementById('configSearchInput').addEventListener('keyup', function () {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#configTableBody tr');
+
+            rows.forEach(row => {
+                const nameCell = row.querySelector('td');
+                const nameText = nameCell.textContent.toLowerCase();
+
+                row.style.display = nameText.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
