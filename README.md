@@ -18,3 +18,4 @@ Servislerin yapılandırmalarını dinamik olarak yönetebilmesi hedeflenmiştir
 Projeyi Docker Üzerinden Başlatma
  ** docker-compose up -d
  
+<img width="1271" height="1382" alt="image" src="https://github.com/user-attachments/assets/d0b89a36-afaa-4cba-93eb-63dff6d43f14" />
