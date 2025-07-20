@@ -12,8 +12,8 @@ Servislerin yapılandırmalarını dinamik olarak yönetebilmesi hedeflenmiştir
 
 ### 1. Gereksinimler
 
-- .NET SDK 8+
-- Visual Studio veya VS Code
+- .NET  8+
+- Ms Visual Studio
 
 Projeyi Docker Üzerinden Başlatma
  ** docker-compose up -d
