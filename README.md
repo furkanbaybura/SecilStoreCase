@@ -5,15 +5,16 @@ Servislerin yapılandırmalarını dinamik olarak yönetebilmesi hedeflenmiştir
 
 ## 🔧 Proje Yapısı
 
-- **configlib** ➜ ConfigReader, Timer, Provider, tip dönüşüm, concurrency-safe cache  
-- **configdashboard** ➜ UI paneli (Razor Pages) ➜ config ekleme & listeleme  
+- **configlib** ➜ ConfigReader, Timer, Provider, tip dönüşüm, cache  
+- **configdashboard** ➜ UI paneli (Razor Pages) ➜ kayıt ekleme & listeleme  
 - **webapi** ➜ REST API ➜ config verisinin dış servislerle paylaşımı  
-- **test** ➜ Unit test senaryoları (xUnit)  
-- **docker-compose.yml** ➜ MongoDB ve RabbitMQ gibi servislerin konteyner üzerinde başlatılması
-
-## 🚀 Kurulum
+- **docker-compose.yml** ➜ MongoDB servisinin konteyner üzerinde başlatılması
 
 ### 1. Gereksinimler
 
 - .NET SDK 8+
 - Visual Studio veya VS Code
+
+Projeyi Docker Üzerinden Başlatma
+ ** docker-compose up -d
+ 
